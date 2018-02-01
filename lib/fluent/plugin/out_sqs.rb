@@ -1,4 +1,5 @@
 require 'fluent/plugin/output'
+require 'securerandom'
 require 'aws-sdk-sqs'
 
 module Fluent::Plugin
@@ -112,7 +113,7 @@ module Fluent::Plugin
     end
 
     def generate_id
-      unique_val = ((('a'..'z').to_a + (0..9).to_a)*3).shuffle[0,(rand(10).to_i)].join
+      unique_val = SecureRandom.hex(16)
       @tag_property_name + Time.now.to_i.to_s + unique_val
     end
   end
